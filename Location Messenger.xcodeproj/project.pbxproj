@@ -18,7 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C102B2791E6276DD003309DF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C102B2791E6276DD003309DF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C10679D61E6228AA00011F30 /* Location Messenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Location Messenger.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C10679D91E6228AA00011F30 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C10679DB1E6228AA00011F30 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -171,6 +171,7 @@
 				TargetAttributes = {
 					C10679D51E6228AA00011F30 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = RF6R57T4D2;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -384,6 +385,7 @@
 			baseConfigurationReference = DDC6D8358F512535D8AE4FEB /* Pods-Location Messenger.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = RF6R57T4D2;
 				INFOPLIST_FILE = "Location Messenger/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.locust.ios;
@@ -398,6 +400,7 @@
 			baseConfigurationReference = F88EA240A63F2D21A8837F54 /* Pods-Location Messenger.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = RF6R57T4D2;
 				INFOPLIST_FILE = "Location Messenger/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.locust.ios;

@@ -17,7 +17,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK: Properties
     
     @IBOutlet weak var messageField: UITextField!
+    @IBOutlet weak var messageFieldBottom: NSLayoutConstraint!
     @IBOutlet weak var inbox: UITableView!
+    
     var ref = FIRDatabase.database().reference(withPath: "messages")
     let locationManager = CLLocationManager()
     var messageText = ""
@@ -25,12 +27,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var longitude = 0.0
     var messageList: [Message] = []
     var activeMessageList: [Message] = []
-    
+    var initialConstant: CGFloat = 0
+    var messageRadius = 15.0
+
     // MARK: ViewController Lifecycle
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        initialConstant = messageFieldBottom.constant
         
         messageField.delegate = self
         inbox.dataSource = self
@@ -84,6 +90,29 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     // MARK: Keyboard Movement
+    
+    func keyboardWillShow(notification: NSNotification) {
+        updateBottomLayoutConstraintWithNotification(notification: notification)
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        updateBottomLayoutConstraintWithNotification(notification: notification)
+    }
+    
+    func updateBottomLayoutConstraintWithNotification(notification: NSNotification) {
+        let userInfo = notification.userInfo!
+        let animationDuration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+        let keyboardEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let convertedKeyboardEndFrame = view.convert(keyboardEndFrame, from: view.window)
+        let rawAnimationCurve = (notification.userInfo![UIKeyboardAnimationCurveUserInfoKey] as! NSNumber).uint32Value << 16
+        let animationCurve = UIViewAnimationOptions(rawValue: UInt(rawAnimationCurve))
+        messageFieldBottom.constant = view.bounds.maxY - convertedKeyboardEndFrame.minY + initialConstant
+        UIView.animate(withDuration: animationDuration, delay: 0.0, options: animationCurve, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+    }
+    
+    /*
     func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if messageField.frame.origin.y > (self.view.frame.height - keyboardSize.height) {
@@ -95,6 +124,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 self.view.frame.origin.y -= keyboardSize.height
             }*/
         }
+        print("keyboardWillShow()")
         
     }
     
@@ -109,7 +139,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 self.view.frame.origin.y += keyboardSize.height
             }*/
         }
+        print("keyboardWillShow()")
     }
+    */
     
     // MARK: UITableView Delegate methods
     
@@ -130,7 +162,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let numberOfRows = inbox.numberOfRows(inSection: numberOfSections-1)
         
         let indexPath = IndexPath(row: numberOfRows-1 , section: numberOfSections-1)
-        inbox.scrollToRow(at: indexPath, at: UITableViewScrollPosition.middle, animated: true)
+        //inbox.scrollToRow(at: indexPath, at: UITableViewScrollPosition.middle, animated: true)
         
         return cell
     }
@@ -190,7 +222,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let msgCoordinate = CLLocation(latitude: message.lat, longitude: message.long)
                 let userCoordinate = CLLocation(latitude: self.latitude, longitude: self.longitude)
                 let meters = userCoordinate.distance(from: msgCoordinate)
-                if meters < 10 {
+                if meters < messageRadius {
                     self.activeMessageList.append(message)
                 }
             }
